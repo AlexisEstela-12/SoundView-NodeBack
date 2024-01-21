@@ -1,0 +1,142 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+main{
+    width: 100vw;
+    background-color: #9e9e9e;
+    display: flex;
+    color: white;
+    font-family: 'Lemon', serif;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.header{
+    display: flex;
+    gap: 60px;
+    font-size: 1.4rem;
+    margin: 23px;
+}
+
+.header > button{
+    background-color: #1DB954;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 2.5rem;
+    width: 235px;
+    height: 55px;
+    margin-top: 34.5px;
+    margin-right: 20px;
+}
+
+.header > button:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.personal {
+    display: flex;
+    margin: 23px;
+    gap: 20px;
+}
+
+
+.foto{ 
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 2.5rem;
+    margin-top: 5px;
+
+}
+
+.foto > img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.info{
+    font-size: 0.7rem;
+    
+}
+
+.choose{
+    display: flex;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.choose > button{
+    background-color: #1DB954;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 2.5rem;
+    width: 235px;
+    height: 55px;
+    margin-top: 34.5px;
+    margin-right: 20px;
+}
+
+.choose  > button:hover{
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+.column_artist{
+    display: flex;
+    flex-wrap: wrap;
+    height: 80%;
+    width: 90%;
+    gap: 20px;
+    min-width:  895px;
+
+
+}
+
+.file{
+    display: flex;
+    gap: 60px;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.info_artist{
+    display: flex;
+    flex-direction: column;
+}
+
+.info_artist > h3 {
+    margin: 0;
+}
+
+
+.art_foto {
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 2.5rem;
+}
+
+.art_foto > img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+}
+
+.column_songs{
+    flex-wrap: wrap;
+    height: 80%;
+    width: 90%;
+    align-content: center;
+    display: none;
+    min-width:  895px;
+
+}

@@ -5,12 +5,14 @@ var querystring = require('querystring')
 require("dotenv").config()
 var request = require('request')
 const axios = require('axios')
-const {coonectDB,saveDB} = require('../Config_DB/database')
+const User = require('../models/User')
 
 // login task
 module.exports.login= (req,res) =>{
     res.render("login",{})
     }
+
+
 
 // spotify login   
 module.exports.spotify = (req,res) => {
@@ -49,8 +51,6 @@ module.exports.logged = async (req, res) => {
             const auth_token_response = await auth_token(code)
             const access_token = auth_token_response.data.access_token;
 
-            saveDB(code,access_token) 
-
             // get basic info
             const user_info_response = await user_info(access_token)
             var personal_info = user_info_response.data;
@@ -59,7 +59,6 @@ module.exports.logged = async (req, res) => {
             // get top songs
             const artists_response = await top_artist(access_token)
             var artists = artists_response.data.items
-            
             
             const songs_response = await top_tracks(access_token)
             var songs = songs_response.data.items 

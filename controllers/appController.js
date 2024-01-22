@@ -56,6 +56,8 @@ module.exports.logged = async (req, res) => {
             var personal_info = user_info_response.data;
 
 
+            
+
             // get top songs
             const artists_response = await top_artist(access_token)
             var artists = artists_response.data.items

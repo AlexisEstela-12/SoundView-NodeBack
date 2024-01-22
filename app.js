@@ -3,7 +3,7 @@ const express = require('express')
 const Routes = require('./routes/appRoutes')
 var cors = require('cors');
 var cookieParser = require('cookie-parser');
-const connectDB = require("./Config_DB/database")
+const {connectDB, saveDB} = require("./Config_DB/database")
 require("dotenv").config()
 
 // express variable

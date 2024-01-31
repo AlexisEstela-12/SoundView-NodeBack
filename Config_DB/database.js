@@ -12,7 +12,7 @@ const connectDB = async() =>{
     }
 }
 
-const saveDB = async(id,token,expires_at,refresh_token) =>{
+const saveDB = async(id,token,refresh_token) =>{
     const existingUser = await User.findOne({user_id: id})
     if (existingUser){
         console.log('The user is already in the DB')
@@ -21,7 +21,6 @@ const saveDB = async(id,token,expires_at,refresh_token) =>{
             user_id: id,
             access_Token: token,
             refresh_Token: refresh_token,
-            expires_at: expires_at,
 
         })
         
@@ -34,10 +33,8 @@ const searchDB = async(id) =>{
     try {
         
     const user = await User.findOne({user_id: id})
-    console.log(user)
     if (user){
         var currentTime = new Date();
-        // console.log(currentTime,"este es el valor de currentTime")
         var own_CurrentTime = new Date(currentTime.getTime() - 18000000)
         if (own_CurrentTime > user.expiration_time){
             print("ya se vencio")
@@ -50,7 +47,6 @@ const searchDB = async(id) =>{
             
         }
         else{
-            console.log("aun no se vence")
             return user ? user.access_Token : null
         }
     }
@@ -61,22 +57,6 @@ const searchDB = async(id) =>{
     }
 }
 
-const UpdateDB = async(id,token,expire_in,refresh_token) =>{
-
-    try{
-        const user = await User.findOneAndUpdate(
-            {user_id:id},
-            {$set:{access_Token: token, expiration_date: expire_in, refresh_Token: refresh_token }}, 
-            {new:true}
-        )
-        if (user){
-            console.log("Successfully updated user")
-        }
-    }catch(error){
-        console.log(error)
-    }
-
-}
 
 
 module.exports = {connectDB, saveDB, searchDB}

@@ -9,12 +9,10 @@ const UserSchema = new Schema({
     },
     access_Token: String,
     refresh_Token: String,
-    expiration_time:{
-        type:Date,
-        expires:'1h'
-    },
-    expires_at: {
-        type: Date
+    expireAt: {
+        type: Date,
+        default: Date.now,
+        expires: 2*60
     }
 })
 

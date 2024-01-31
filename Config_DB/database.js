@@ -21,37 +21,17 @@ const saveDB = async(id,token,refresh_token) =>{
             user_id: id,
             access_Token: token,
             refresh_Token: refresh_token,
-
         })
-        
         await newUser.save()
         console.log('New user saved in the database.')
     }
 }
 
 const searchDB = async(id) =>{
-    try {
-        
+    try {   
     const user = await User.findOne({user_id: id})
-    if (user){
-        var currentTime = new Date();
-        var own_CurrentTime = new Date(currentTime.getTime() - 18000000)
-        if (own_CurrentTime > user.expiration_time){
-            print("ya se vencio")
-            const result =  await refresh_token(user.refresh_Token)
-                console.log(result.newAccessToken)
-                console.log(result.expiresAt)
-                console.log(result.newRefreshToken)
-            await UpdateDB(id,result.newAccessToken,result.expiresAt,result.newRefreshToken)
-            await searchDB(id)
-            
-        }
-        else{
-            return user ? user.access_Token : null
-        }
-    }
-    
-    }  catch(error){
+    return user ? user.access_Token : null
+    }catch(error){
         console.error("Error searching in the database: ", error)
         throw error
     }

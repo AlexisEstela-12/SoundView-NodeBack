@@ -12,23 +12,23 @@
 <body>
     <main>
         <section class="header">
-            <h1>Hola <%= personal_info.display_name %>, Welcome to SoundView 🎧 </h1>
+            <h1>Hola <%= userData.name %>, Welcome to SoundView 🎧 </h1>
             <button> Share with </button>
         </section>
         <section class="personal">
             <span class="foto">
-                <% if (personal_info.images && personal_info.images.length > 0) { %>
-                <img src="<%= personal_info.images[0].url %>" alt="Imagen de perfil">
+                <% if (userData.image) { %>
+                <img src="<%= userData.image[0].url %>" alt="Imagen de perfil">
                 <% } else { %>
                 <img src="/img/nn.png">    
                 <% } %>
             </span>
             <span class="info">
-                <h2>Name: <%= personal_info.display_name %></h2>
-                <h2>Email: <%= personal_info.email %></h2>
-                <h2>Spotify personal account: <%= personal_info.href %> </h2>
-                <h2>Country: <%= personal_info.country%></h2>
-                <h2>Followers: <%= personal_info.followers.total %> </h2>
+                <h2>Name: <%= userData.name %></h2>
+                <h2>Email: <%= userData.email %></h2>
+                <h2>Spotify personal account: <%= userData.account %> </h2>
+                <h2>Country: <%= userData.country%></h2>
+                <h2>Followers: <%= userData.followers %> </h2>
             </span>
         </section>
         <section class="choose">
@@ -51,21 +51,10 @@
             <% }) %>
         </section>
         <section class="column_songs">
-            <% songs.forEach(function(elemento,index){ %>
-                <section class="file">
-                    <h1><%= index +1  %></h1>
-                    <span class="info_artist">
-                        <h3>Name: <%= elemento.name %></h3>
-                        <h3>Popularity: <%= elemento.popularity %></h3>
-                        <h3>Aprox Duration: <%= Math.round((elemento.duration_ms)/60000) %></h3>
-                    </span>
-                        <span class="art_foto">
-                            <img src="<%= elemento.album.images[1].url %>" alt="">
-                        </span>
-                </section>
-                <% }) %>
+
         </section>
+
     </main>
-    <script src="/js/logged.js"></script>
+    <script type="module" src="/js/logged.js"></script>
 </body>
 </html>

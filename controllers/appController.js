@@ -26,6 +26,7 @@ module.exports.spotify = (req,res) => {
         redirect_uri: process.env.REDIRECT_URL,
         state: state
 }))
+
 }
 
 // logged task
@@ -49,20 +50,12 @@ module.exports.authProcess = async (req,res) =>{
             // get token, refresh_token and expiration time
             const auth_token_response = await auth_token(code)
             const access_token = auth_token_response.data.access_token;
-            const refresh_token = auth_token_response.data.refresh_token;
-            const expires_in = auth_token_response.data.expires_in;
-
-            // se le resta 5h porque en el horario de Perú son 6h de diferencia, pero el token dura 1h.
-            var d = new Date()
-            var Expiration_time = new Date(d.getTime()+ expires_in*1000- 18000000) 
-
-        
 
             // get basic info
             const user_info_response = await user_info(access_token)
             var personal_info = user_info_response.data;
             var id = personal_info.id
-            saveDB(id,access_token,Expiration_time,refresh_token)
+            saveDB(id,access_token,refresh_token)
             var userData = {
                 name: personal_info.display_name,
                 email: personal_info.email,

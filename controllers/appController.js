@@ -47,15 +47,17 @@ module.exports.authProcess = async (req,res) =>{
             // clean cookies
             res.clearCookie(statekey);
 
-            // get token, refresh_token and expiration time
+            // get token
             const auth_token_response = await auth_token(code)
             const access_token = auth_token_response.data.access_token;
+
 
             // get basic info
             const user_info_response = await user_info(access_token)
             var personal_info = user_info_response.data;
+
             var id = personal_info.id
-            saveDB(id,access_token,refresh_token)
+            await saveDB(id,access_token)
             var userData = {
                 name: personal_info.display_name,
                 email: personal_info.email,
@@ -76,6 +78,8 @@ module.exports.authProcess = async (req,res) =>{
     
 }
 module.exports.logged = async (req, res) => {
+
+    try{
     const userData = req.session.userData
     const id = req.params.id
     const artists_response = await top_artist(id)
@@ -84,7 +88,9 @@ module.exports.logged = async (req, res) => {
         userData,
         artists
     })
-};
+} catch(error){
+    console.log(error)
+}};
 
 module.exports.songs = async(req,res) =>{ 
     try{

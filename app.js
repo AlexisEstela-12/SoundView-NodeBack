@@ -14,7 +14,7 @@ const app = express()
 app.use(express.json())
 app.use(cookieParser())
 app.use(session({
-    secret: process.env.SECRET, // Deberías cambiar esto por una cadena de caracteres secreta y única
+    secret: process.env.SECRET, 
     resave: false,
     saveUninitialized: true
 }));
@@ -35,5 +35,5 @@ connectDB()
 
 
 app.listen(process.env.PORT_SERVER,()=>{
-    console.log(`Example app listening on port ${process.env.PORT_SERVER}`)
+    console.log(`app listening on port ${process.env.PORT_SERVER}`)
 })

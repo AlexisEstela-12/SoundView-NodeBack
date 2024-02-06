@@ -15,6 +15,7 @@ async function user_info(access_Token) {
 
 // fucntion get artist
 async function top_artist(id){
+
     const access_token = await searchDB(id)
     const artists = await axios.get("https://api.spotify.com/v1/me/top/artists",{
         headers: {

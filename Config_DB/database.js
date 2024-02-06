@@ -12,15 +12,14 @@ const connectDB = async() =>{
     }
 }
 
-const saveDB = async(id,token,refresh_token) =>{
+const saveDB = async(id,token) =>{
     const existingUser = await User.findOne({user_id: id})
     if (existingUser){
         console.log('The user is already in the DB')
     } else {
         const newUser = new User({
             user_id: id,
-            access_Token: token,
-            refresh_Token: refresh_token,
+            access_Token: token
         })
         await newUser.save()
         console.log('New user saved in the database.')

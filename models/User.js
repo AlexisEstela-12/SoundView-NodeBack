@@ -8,11 +8,10 @@ const UserSchema = new Schema({
         index:true
     },
     access_Token: String,
-    refresh_Token: String,
     expireAt: {
         type: Date,
         default: Date.now,
-        expires: 2*60
+        expires: 3600   
     }
 })
 

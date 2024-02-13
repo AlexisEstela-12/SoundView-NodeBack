@@ -7,10 +7,10 @@ var cookieParser = require('cookie-parser');
 const {connectDB, saveDB, searchDB} = require("./Config_DB/database")
 require("dotenv").config()
 
-// express variable
+// express variable 
 const app = express()
 
-//middleware
+//middleware section
 app.use(express.json())
 app.use(cookieParser())
 app.use(session({
@@ -18,6 +18,9 @@ app.use(session({
     resave: false,
     saveUninitialized: true
 }));
+
+// cors section
+app.use(cors())
 
 
 // use EJS templates
@@ -27,13 +30,12 @@ app.set('view engine', 'ejs')
 app.use(Routes)
 
 //static files
-app.use(express.static(__dirname + '/public'))
-    .use(cors())
+app.use(cors())
 
 // MongoDB database connection
 connectDB()
 
-
+// active server section
 app.listen(process.env.PORT_SERVER,()=>{
     console.log(`app listening on port ${process.env.PORT_SERVER}`)
 })

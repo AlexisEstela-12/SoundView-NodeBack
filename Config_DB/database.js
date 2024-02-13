@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 const User = require('../models/User')
-var {statekey, generateRandomString,auth_token,refresh_token} = require('../Authentication/Token')
 
 
+
+// database connection
 const connectDB = async() =>{
     try{
         const conn= await mongoose.connect(process.env.MONGODB_DB)
@@ -12,6 +13,7 @@ const connectDB = async() =>{
     }
 }
 
+// save values in data base
 const saveDB = async(id,token) =>{
     const existingUser = await User.findOne({user_id: id})
     if (existingUser){
@@ -26,6 +28,7 @@ const saveDB = async(id,token) =>{
     }
 }
 
+// search in DB by id
 const searchDB = async(id) =>{
     try {   
     const user = await User.findOne({user_id: id})

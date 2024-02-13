@@ -1,18 +1,10 @@
 var {statekey, generateRandomString,auth_token,refresh_token} = require('../Authentication/Token')
 var {user_info,top_tracks,top_artist} = require('../search/api_search')
-var cookie = require('cookie-parser')
 var querystring = require('querystring')
 require("dotenv").config()
-var request = require('request')
-const axios = require('axios')
-const User = require('../models/User')
-const {connectDB, saveDB, searchDB} =require("../Config_DB/database")
-const moment = require('moment-timezone')
 
-// login task
-module.exports.login= (req,res) =>{
-    res.render("login",{})
-    }
+const {connectDB, saveDB, searchDB} =require("../Config_DB/database")
+
 
 // spotify login   
 module.exports.spotify = (req,res) => {
@@ -55,19 +47,14 @@ module.exports.authProcess = async (req,res) =>{
             // get basic info
             const user_info_response = await user_info(access_token)
             var personal_info = user_info_response.data;
-
             var id = personal_info.id
+
+            // save in database mongodb
             await saveDB(id,access_token)
-            var userData = {
-                name: personal_info.display_name,
-                email: personal_info.email,
-                account: personal_info.href,
-                country: personal_info.country,
-                followers:personal_info.followers.total,
-                image: personal_info.image
-            }
-            req.session.userData = userData
-            res.redirect(`/logged/${id}`) 
+            const encodedPersonalInfo = encodeURIComponent(JSON.stringify(personal_info))
+            res.redirect(`http://localhost:3000/logged?info=${encodedPersonalInfo}`)
+
+
         }
     } catch (error) {
         console.error('Error:', error.message);
@@ -77,20 +64,20 @@ module.exports.authProcess = async (req,res) =>{
     }
     
 }
-module.exports.logged = async (req, res) => {
+module.exports.artists = async (req, res) => {
 
     try{
-    const userData = req.session.userData
-    const id = req.params.id
-    const artists_response = await top_artist(id)
-    var artists = artists_response.data.items
-    res.render ("logged",{
-        userData,
-        artists
-    })
-} catch(error){
-    console.log(error)
+        var id = req.params.id || null
+        if(id){
+            const artists_response = await top_artist(id)
+            var artists = artists_response.data.items 
+            res.json(artists)
+        }
+    }catch(error){
+        console.error("Error en la solicitud de canciones:", error);
+        res.status(500).json({ error: "Error interno del servidor" })
 }};
+
 
 module.exports.songs = async(req,res) =>{ 
     try{
@@ -99,10 +86,9 @@ module.exports.songs = async(req,res) =>{
             const songs_response = await top_tracks(id)
             var songs = songs_response.data.items 
             res.json(songs)
-
         }
     } catch{
-        console.log("error")
-
+        console.error("Error en la solicitud de canciones:", error);
+        res.status(500).json({ error: "Error interno del servidor" })
     }
 }

@@ -1,12 +1,12 @@
-var {statekey, generateRandomString,auth_token,refresh_token} = require('../Authentication/Token')
+var {statekey, generateRandomString,auth_token} = require('../Authentication/Token')
 var {user_info,top_tracks,top_artist} = require('../search/api_search')
 var querystring = require('querystring')
+const {connectDB, saveDB, searchDB} =require("../Config_DB/database")
 require("dotenv").config()
 
-const {connectDB, saveDB, searchDB} =require("../Config_DB/database")
-
-
-// spotify login   
+//* spotify platform authentication view
+// uses spotify developer account values: client id, scope, redirect_uri
+//*
 module.exports.spotify = (req,res) => {
     var state = generateRandomString(16);
     res.cookie(statekey,state)
@@ -21,8 +21,7 @@ module.exports.spotify = (req,res) => {
 
 }
 
-// logged task
-
+// authProcess view, use the logged.ejs template
 module.exports.authProcess = async (req,res) =>{
     try {
         var code = req.query.code || null;
@@ -64,8 +63,9 @@ module.exports.authProcess = async (req,res) =>{
     }
     
 }
-module.exports.artists = async (req, res) => {
 
+// this function is used to search top_artists with api and resend information to frontend
+module.exports.artists = async (req, res) => {
     try{
         var id = req.params.id || null
         if(id){
@@ -78,7 +78,7 @@ module.exports.artists = async (req, res) => {
         res.status(500).json({ error: "Error interno del servidor" })
 }};
 
-
+// this function is used to search top_tracks with api and resend information to frontend
 module.exports.songs = async(req,res) =>{ 
     try{
         var id = req.params.id || null;

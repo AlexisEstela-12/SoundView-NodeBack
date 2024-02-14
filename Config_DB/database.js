@@ -3,7 +3,9 @@ const User = require('../models/User')
 
 
 
-// database connection
+/**
+ * Function that initiates the connection with the database using the env values
+ */
 const connectDB = async() =>{
     try{
         const conn= await mongoose.connect(process.env.MONGODB_DB)
@@ -12,8 +14,11 @@ const connectDB = async() =>{
         console.log(error)
     }
 }
-
-// save values in data base
+/**
+ * 
+ * @param {string} id value used to look up the user's token to query the spotify api
+ * @param {string} token token value used for authentication in the spotify api
+ */
 const saveDB = async(id,token) =>{
     const existingUser = await User.findOne({user_id: id})
     if (existingUser){
@@ -28,7 +33,11 @@ const saveDB = async(id,token) =>{
     }
 }
 
-// search in DB by id
+/**
+ * 
+ * @param {string} id value used to look up the user's token to query the spotify api
+ * @returns token that is associated with the entered id
+ */
 const searchDB = async(id) =>{
     try {   
     const user = await User.findOne({user_id: id})
@@ -39,6 +48,5 @@ const searchDB = async(id) =>{
     }
 }
 
-
-
+// we export the function of connecting to DB, searching in DB and saving in DB
 module.exports = {connectDB, saveDB, searchDB}
